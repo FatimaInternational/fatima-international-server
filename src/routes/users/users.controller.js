@@ -181,6 +181,7 @@ async function httpGetAllUsers(req, res) {
     .catch((error) => {
       return res.status(401).json({
         error: "unauthorized3",
+        message: error,
       });
     });
 }
