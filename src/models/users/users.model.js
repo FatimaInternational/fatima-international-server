@@ -59,16 +59,12 @@ async function getAllUsers() {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) return reject(err);
-      pool.query("SELECT id, username, rank FROM users", (err, rows) => {
+      pool.query("SELECT id, username, `rank` FROM users", (err, rows) => {
         connection.release();
         if (err) {
           return reject(err);
         } else {
-          if(rows[0].rank === "admin"){
-            return resolve(rows);
-          }else{
-            return reject("User is not admin")
-          }
+          return resolve(rows);
         }
       });
     });
@@ -169,13 +165,17 @@ async function confirmAdmin(username) {
     }
     pool.getConnection((err, connection) => {
       if (err) return reject(err);
-      const query = "SELECT * FROM `users` WHERE username=?";
+      const query = "SELECT * FROM users WHERE username=?";
       pool.query(query, [username.toLowerCase()], (err, rows) => {
         connection.release();
         if (err) {
           return reject(err);
         } else {
-          return resolve(rows);
+          if(rows[0].rank === "admin") {
+            return resolve(rows);
+          }else{
+            return reject("User Not Admin")
+          }
         }
       });
     });
