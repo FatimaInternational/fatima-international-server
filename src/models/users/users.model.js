@@ -37,7 +37,7 @@ async function createNewUser(user) {
         pool.getConnection((err, connection) => {
           if (err) return reject(err);
           const query =
-            "INSERT INTO users (username, password, rank) VALUES (?, ?, ?)";
+            "INSERT INTO users (username, password, `rank`) VALUES (?, ?, ?)";
           pool.query(
             query,
             [user.username.toLowerCase(), hashedPassword, user.rank],
@@ -208,7 +208,7 @@ async function promoteUserByUsername(username) {
     }
     pool.getConnection((err, connection) => {
       if (err) return reject(err);
-      const query = "UPDATE users SET rank=? WHERE username=?";
+      const query = "UPDATE users SET `rank`=? WHERE username=?";
       pool.query(query, ["admin", username.toLowerCase()], (err, rows) => {
         connection.release();
         if (err) {
@@ -227,7 +227,7 @@ async function demoteUserByUsername(username) {
     }
     pool.getConnection((err, connection) => {
       if (err) return reject(err);
-      const query = "UPDATE users SET rank=? WHERE username=?";
+      const query = "UPDATE users SET `rank`=? WHERE username=?";
       pool.query(query, ["user", username.toLowerCase()], (err, rows) => {
         connection.release();
         if (err) {
