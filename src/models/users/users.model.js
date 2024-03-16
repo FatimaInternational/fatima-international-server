@@ -165,7 +165,7 @@ async function confirmAdmin(username) {
     }
     pool.getConnection((err, connection) => {
       if (err) return reject(err);
-      const query = "SELECT * FROM users WHERE username=? AND rank=?";
+      const query = "SELECT * FROM `users` WHERE username=? AND rank=?";
       pool.query(query, [username.toLowerCase(), "admin"], (err, rows) => {
         connection.release();
         if (err) {
