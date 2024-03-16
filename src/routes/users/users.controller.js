@@ -157,12 +157,12 @@ async function httpGetAllUsers(req, res) {
     !req.user.data.username
   ) {
     return res.status(401).json({
-      error: "unauthorized",
+      error: "unauthorized1",
     });
   }
   if (req.user.data.rank !== "admin") {
     return res.status(401).json({
-      error: "unauthorized",
+      error: "unauthorized2",
     });
   }
   await confirmAdmin(req.user.data.username)
@@ -180,7 +180,7 @@ async function httpGetAllUsers(req, res) {
     })
     .catch((error) => {
       return res.status(401).json({
-        error: "unauthorized",
+        error: "unauthorized3",
       });
     });
 }
