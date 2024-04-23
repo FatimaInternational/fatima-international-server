@@ -2,6 +2,7 @@ const express = require("express");
 
 const {
   httpGetShipmentByNumber,
+  httpGetTop100Shipments,
   httpCreateShipment,
   httpDeleteShipmentByNumber,
   httpChangeShipmentStatus,
@@ -14,6 +15,7 @@ const {
 
 const shipmentsRouter = express.Router();
 
+shipmentsRouter.get("/",authenticateToken, httpGetTop100Shipments);
 shipmentsRouter.post("/",authenticateToken, httpCreateShipment);
 shipmentsRouter.post("/search", httpGetShipmentByNumber);
 shipmentsRouter.delete("/:number",authenticateToken, httpDeleteShipmentByNumber);

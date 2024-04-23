@@ -1,5 +1,6 @@
 const {
   createNewShipment,
+  getTop100Shipments,
   getShipmentByNumber,
   deleteShipmentByNumber,
   changeShipmentStatus,
@@ -20,6 +21,18 @@ async function httpCreateShipment(req, res) {
     .catch((error) => {
       return res.status(400).json({
         error: "Couldn't Create Shipment",
+        message: error,
+      });
+    });
+}
+async function httpGetTop100Shipments(req, res) {
+  await getTop100Shipments()
+    .then((response) => {
+      return res.status(200).json(response);
+    })
+    .catch((error) => {
+      return res.status(400).json({
+        error: "Couldn't get Shipments",
         message: error,
       });
     });
@@ -103,6 +116,7 @@ async function httpChangeShipmentInfo(req,res){
 
 module.exports = {
     httpCreateShipment,
+    httpGetTop100Shipments,
     httpGetShipmentByNumber,
     httpDeleteShipmentByNumber,
     httpChangeShipmentStatus,

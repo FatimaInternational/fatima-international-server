@@ -55,7 +55,19 @@ async function createNewShipment(shipment) {
     });
   });
 }
-
+async function getTop100Shipments() {
+  return new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+      if (err) return reject(err);
+      const query = "SELECT * FROM shipments ORDER BY date_created DESC LIMIT 100";
+      connection.query(query, (err, rows) => {
+        connection.release();
+        if (err) return reject(err);
+        return resolve(rows);
+      });
+    });
+  })
+}
 async function getShipmentByNumber(number) {
   return new Promise((resolve, reject) => {
     if (!number) {
@@ -154,6 +166,7 @@ async function changeShipmentInfo(shipment) {
 
 module.exports = {
   createNewShipment,
+  getTop100Shipments,
   getShipmentByNumber,
   deleteShipmentByNumber,
   changeShipmentStatus,
